@@ -46,3 +46,25 @@ WHERE film_id in (SELECT film_id
 
 # 8. Retrieve the client_id and the total_amount_spent of those clients who spent more than the average of the total_amount spent by each client. 
 # You can use subqueries to accomplish this.
+
+SELECT customer_id, SUM(amount) as total_amount
+FROM payment
+GROUP BY customer_id	
+HAVING total_amount > (SELECT AVG(total_amount_spent)
+					FROM (SELECT SUM(amount) AS total_amount_spent
+							FROM payment
+							GROUP BY customer_id) AS t1);
+
+
+
+
+#subqueries
+SELECT AVG(total_amount_spent)
+FROM (SELECT SUM(amount) AS total_amount_spent
+		FROM payment
+		GROUP BY customer_id) AS t1;
+
+
+
+
+
